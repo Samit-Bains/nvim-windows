@@ -1,0 +1,72 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en",
+  "caseSensitive": false,
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "out",
+    ".git",
+    "*.min.js",
+    "*.min.css",
+    "*.map",
+    "package-lock.json",
+    "yarn.lock"
+  ],
+
+  "dictionaries": ["typescript", "node", "html", "css", "softwareTerms", "companies", "npm"],
+  "dictionaryDefinitions": [],
+
+  "words": [
+    "nvim",
+    "neovim",
+    "treesitter",
+    "lspconfig",
+    "lualine",
+    "cspell",
+    "stringify",
+    "parseInt",
+    "parseFloat",
+    "typeof",
+    "instanceof",
+    "unmount",
+    "renderer",
+    "middleware",
+    "tailwindcss",
+    "classname",
+    "classnames",
+    "readonly",
+    "nullable",
+    "Stringify",
+    "Segm",
+    "ngify",
+    "tion",
+    "SEGM"
+  ],
+
+  "flagWords": [],
+
+  "allowCompoundWords": true,
+  "minWordLength": 4,
+
+  "ignoreRegExpList": [
+    "HexValue",
+    "EscapeCharacters",
+    "Base64",
+    "Email",
+    "SHA",
+    "Urls",
+    "RsaCert",
+    "SshRsa"
+  ],
+
+  "overrides": [
+    {
+      "filename": "**/*.json",
+      "enabled": false
+    }
+  ]
+}

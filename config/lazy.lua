@@ -1018,6 +1018,104 @@ require("lazy").setup({
         end
       end
 
+      local function is_tree_buffer(bufnr)
+        return bufnr
+          and bufnr > 0
+          and vim.api.nvim_buf_is_valid(bufnr)
+          and vim.bo[bufnr].filetype == "NvimTree"
+      end
+
+      local function is_editor_buffer(bufnr)
+        return bufnr
+          and bufnr > 0
+          and vim.api.nvim_buf_is_valid(bufnr)
+          and vim.bo[bufnr].buflisted
+          and vim.bo[bufnr].buftype == ""
+          and not is_tree_buffer(bufnr)
+      end
+
+      local function pick_buffer_to_close()
+        local current_buf = vim.api.nvim_get_current_buf()
+        if is_editor_buffer(current_buf) then
+          return current_buf
+        end
+
+        local alternate_buf = vim.fn.bufnr("#")
+        if is_editor_buffer(alternate_buf) then
+          return alternate_buf
+        end
+
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          local win_buf = vim.api.nvim_win_get_buf(win)
+          if is_editor_buffer(win_buf) then
+            return win_buf
+          end
+        end
+
+        return nil
+      end
+
+      local function pick_replacement_buffer(closing_buf)
+        local alternate_buf = vim.fn.bufnr("#")
+        if alternate_buf ~= closing_buf and is_editor_buffer(alternate_buf) then
+          return alternate_buf
+        end
+
+        local buffers = {}
+        for _, bufinfo in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
+          if bufinfo.bufnr ~= closing_buf and is_editor_buffer(bufinfo.bufnr) then
+            table.insert(buffers, bufinfo)
+          end
+        end
+
+        table.sort(buffers, function(a, b)
+          return a.lastused > b.lastused
+        end)
+
+        return buffers[1] and buffers[1].bufnr or nil
+      end
+
+      local function pick_target_window()
+        local current_win = vim.api.nvim_get_current_win()
+        if not is_tree_buffer(vim.api.nvim_win_get_buf(current_win)) then
+          return current_win
+        end
+
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          if not is_tree_buffer(vim.api.nvim_win_get_buf(win)) then
+            return win
+          end
+        end
+
+        return current_win
+      end
+
+      local function close_buffer_tab()
+        local closing_buf = pick_buffer_to_close()
+        if not closing_buf then
+          vim.cmd("enew")
+          return
+        end
+
+        if vim.bo[closing_buf].modified then
+          vim.notify("Save or discard changes before closing this buffer.", vim.log.levels.WARN)
+          return
+        end
+
+        local target_win = pick_target_window()
+        local replacement_buf = pick_replacement_buffer(closing_buf)
+
+        vim.api.nvim_set_current_win(target_win)
+
+        if replacement_buf then
+          vim.api.nvim_win_set_buf(target_win, replacement_buf)
+        else
+          vim.cmd("enew")
+        end
+
+        vim.cmd("bdelete " .. closing_buf)
+      end
+
       vim.keymap.set("n", "<C-PageDown>", function()
         run_bufferline("BufferLineCycleNext", "bnext")
       end, { desc = "Next buffer tab", silent = true })
@@ -1038,8 +1136,8 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>bn", ":bnext<CR>", { desc = "Next buffer", silent = true })
       vim.keymap.set("n", "<leader>bp", ":bprev<CR>", { desc = "Previous buffer", silent = true })
       
-      vim.keymap.set("n", "<leader><Tab>", ":bdelete<CR>", { desc = "Close buffer", silent = true })
-      vim.keymap.set("n", "<leader>tab", ":bdelete<CR>", { desc = "Close buffer", silent = true })
+      vim.keymap.set("n", "<leader><Tab>", close_buffer_tab, { desc = "Close buffer", silent = true })
+      vim.keymap.set("n", "<leader>tab", close_buffer_tab, { desc = "Close buffer", silent = true })
     end,
   },
 

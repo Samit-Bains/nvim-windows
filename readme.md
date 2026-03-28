@@ -156,7 +156,7 @@ This config uses Bufferline to make open buffers feel like editor tabs.
 
 | Key | Action |
 | --- | --- |
-| `<leader>tab` | Close current tab/buffer |
+| `<leader>tab` | Close current tab/buffer and jump to the last editor tab |
 | `<C-PageUp>` | Previous tab/buffer |
 | `<C-PageDown>` | Next tab/buffer |
 | `<C-S-PageUp>` | Move tab left |

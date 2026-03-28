@@ -543,14 +543,6 @@ require("lazy").setup({
     end,
   },
 
-  -- Git signs (show git diff in sign column + inline diff viewing)
-  {
-    "lewis6991/gitsigns.nvim",
-    config = function()
-      load_config("gitsigns")
-    end,
-  },
-
   -- Icons
   {
     "nvim-tree/nvim-web-devicons",

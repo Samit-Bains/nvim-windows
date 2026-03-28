@@ -57,7 +57,7 @@ The rest of the setup is built to feel fast and focused:
 - Telescope for fuzzy finding and project navigation
 - NvimTree for file browsing
 - Spectre for VS Code-style search across files
-- Gitsigns + LazyGit for a strong Git review workflow
+- LazyGit for Git UI and history
 - LSP, completion, formatting, spell checking, and filetype-specific polish
 
 ## Requirements
@@ -210,20 +210,6 @@ Inside Spectre:
 | --- | --- |
 | `<leader>gg` | Open LazyGit |
 | `<leader>gf` | Open LazyGit file history |
-| `<leader>gs` | Show changed files |
-| `]c` / `[c` | Jump between hunks |
-| `<leader>hp` | Preview hunk |
-| `<leader>hP` | Preview hunk inline |
-| `<leader>hs` | Stage hunk |
-| `<leader>hr` | Reset hunk |
-| Visual + `<leader>hs` | Stage selected lines |
-| Visual + `<leader>hr` | Reset selected lines |
-| `<leader>hS` | Stage entire buffer |
-| `<leader>hR` | Reset entire buffer |
-| `<leader>hu` | Undo last stage |
-| `<leader>hb` | Show blame for line |
-| `<leader>hd` | Diff current file |
-| `<leader>td` | Toggle deleted lines |
 
 ### Spell checking and writing
 
@@ -282,7 +268,6 @@ This setup uses a hybrid spell workflow:
 
 ### Git
 
-- `lewis6991/gitsigns.nvim` - diff review and hunk actions
 - `kdheepak/lazygit.nvim` - full-screen Git workflow
 - `f-person/git-blame.nvim` - blame metadata in the statusline
 
@@ -309,7 +294,6 @@ If you want to understand why this setup looks different from a normal Neovim co
 - `config/lsp.lua` - LSP setup, semantic token shutdown, Go format-on-save
 - `config/telescope.lua` - fuzzy finder behavior
 - `config/nvim-tree.lua` - file tree behavior
-- `config/gitsigns.lua` - Git review workflow
 - `config/lualine.lua` - statusline behavior
 - `config/formatter.lua` - formatting sources
 - `cspell.json` - fallback code dictionary

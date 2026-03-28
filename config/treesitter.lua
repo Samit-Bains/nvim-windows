@@ -121,7 +121,8 @@ if vim.bo.filetype ~= "" then
     enable_treesitter(0)
 end
 
-local installed = treesitter.get_installed("parsers")
+local ok_info, ts_info = pcall(require, "nvim-treesitter.info")
+local installed = ok_info and ts_info.installed_parsers() or {}
 local missing = {}
 
 for _, language in ipairs(languages) do
@@ -131,5 +132,10 @@ for _, language in ipairs(languages) do
 end
 
 if #missing > 0 then
-    treesitter.install(missing)
+    vim.schedule(function()
+        pcall(vim.cmd, {
+            cmd = "TSInstallSync",
+            args = missing,
+        })
+    end)
 end

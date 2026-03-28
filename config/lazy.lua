@@ -688,6 +688,31 @@ require("lazy").setup({
     end,
   },
 
+  -- Diffview (side-by-side Git review and history)
+  {
+    "sindrets/diffview.nvim",
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewClose",
+      "DiffviewToggleFiles",
+      "DiffviewFocusFiles",
+      "DiffviewRefresh",
+      "DiffviewFileHistory",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    keys = {
+      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview working tree" },
+      { "<leader>gq", "<cmd>DiffviewClose<cr>", desc = "Close Diffview" },
+      { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diffview current file history" },
+      { "<leader>gH", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview repo history" },
+    },
+    config = function()
+      load_config("diffview")
+    end,
+  },
+
   -- Project management
   {
     "ahmedkhalf/project.nvim",

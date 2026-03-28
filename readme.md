@@ -57,7 +57,7 @@ The rest of the setup is built to feel fast and focused:
 - Telescope for fuzzy finding and project navigation
 - NvimTree for file browsing
 - Spectre for VS Code-style search across files
-- LazyGit for Git UI and history
+- Diffview + LazyGit for Git review, history, and staging
 - LSP, completion, formatting, spell checking, and filetype-specific polish
 
 ## Requirements
@@ -210,6 +210,34 @@ Inside Spectre:
 | --- | --- |
 | `<leader>gg` | Open LazyGit |
 | `<leader>gf` | Open LazyGit file history |
+| `<leader>gd` | Open Diffview for current working tree changes |
+| `<leader>gq` | Close Diffview |
+| `<leader>gh` | Open Diffview history for current file |
+| `<leader>gH` | Open Diffview history for the repo |
+
+### Diffview shortcuts
+
+Once Diffview is open, these buffer-local keys are available:
+
+| Key | Action |
+| --- | --- |
+| `<leader>tab` | Close the current Diffview tab |
+| `<Tab>` / `<S-Tab>` | Next/previous changed file |
+| `<CR>` / `o` | Open the selected file or history entry |
+| `<leader>ge` | Focus the Diffview file panel |
+| `<leader>gb` | Toggle the Diffview file panel |
+| `gf` | Open the selected file in a normal editor tab |
+| `s` or `-` | Stage/unstage the selected file entry |
+| `R` | Refresh the file list |
+| `g?` | Show Diffview help |
+| `[c` / `]c` | Jump between diff hunks |
+| `[x` / `]x` | Jump between merge conflicts |
+| `<leader>mo` / `<leader>mt` | Choose ours / theirs for current conflict |
+| `<leader>mb` / `<leader>ma` | Choose base / all versions for current conflict |
+| `<leader>mO` / `<leader>mT` | Choose ours / theirs for the whole file |
+| `<leader>mB` / `<leader>mA` | Choose base / all versions for the whole file |
+
+Diffview's default `<leader>e`, `<leader>b`, and `<leader>c...` mappings are remapped here so they do not override your existing tree, buffer, or code-action shortcuts.
 
 ### Spell checking and writing
 
@@ -268,6 +296,7 @@ This setup uses a hybrid spell workflow:
 
 ### Git
 
+- `sindrets/diffview.nvim` - side-by-side Git diff review and file history
 - `kdheepak/lazygit.nvim` - full-screen Git workflow
 - `f-person/git-blame.nvim` - blame metadata in the statusline
 
@@ -309,7 +338,7 @@ If you just cloned this config and want to feel what it is about:
 3. Press `p` for Projects or `<leader>ff` to find a file
 4. Open the file tree with `<leader>e`
 5. Search the project with `<leader>S`
-6. Open LazyGit with `<leader>gg`
+6. Review changes with `<leader>gd` or open LazyGit with `<leader>gg`
 7. Open a React or Next.js file and look closely at the colors
 
 That last step is where this config really shows off.
